@@ -1,0 +1,109 @@
+$image-width: 100px;
+
+.header {
+    position: relative;
+    color: #f8f8f8;
+}
+
+.header__find-painter {
+    margin: 0;
+    padding: 10px 0;
+    color: #867d67;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.12px;
+    letter-spacing: .01rem;
+    text-transform: uppercase;
+    margin-left: $image-width + 80px;
+}
+
+.header__top {
+    background: linear-gradient(180deg,#fff 0,#fff 29%,#fdfdfd 37%,#e7e6e6 86%,#e2e2e2);
+}
+
+.header__bottom {
+    padding: 17px 0;
+    background: #867d67;
+
+    .menu-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: $image-width;
+    height: $image-width;
+    background: red;
+    padding: 5px;
+}
+
+.header-menu {
+    float: left;
+    font-size: 15.6px;
+    font-size: 1.3rem;
+    letter-spacing: 0.48px;
+    letter-spacing: .04rem;
+    text-transform: uppercase;
+    margin-left: calc(99.99% * 0.166666666666667 - 16.66666666666666px + 20px) !important;
+
+    li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        display: inline-block;
+        margin-right: -4px;
+        vertical-align: middle;
+    }
+
+    &__link {
+        display: block;
+        padding: 13px 19px;
+        color: inherit;
+        transition: background .3s ease;
+        text-decoration: none;
+    }
+}
+
+.btn {
+    display: inline-block;
+    min-height: 30px;
+    padding: 0 15px;
+    border: 1px solid rgba(0,0,0,.3);
+    border-radius: 0;
+    background-color: #fff;
+    background-image: none;
+    background-origin: border-box;
+    color: #666;
+    font: inherit;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fff;
+    text-transform: none;
+    overflow: visible;
+    vertical-align: middle;
+    -webkit-appearance: none;
+
+    &_colored {
+        border-color: #6ecd5b;
+        background: #6ecd5b;
+        color: #fff;
+    }
+}
+
+.header__button {
+    float: right;
+    min-width: 140px;
+    margin-top: 5px;
+    text-align: center;
+}
