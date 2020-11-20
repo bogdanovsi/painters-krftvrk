@@ -1,37 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 
+import Header from '../Header';
 import Footer from '../Footer';
-
-import logo from './images/logo.png';
 
 const App = () => {
   return (<>
     <div className="App">
-      <header role="banner" className="header">
-        <nav className="header__top">
-          <div className="container">
-            <div className="logo-container">
-              <a href="/" title="Home" className="header-logo">
-                <img src={logo} alt="logo" width={100} height={100} />
-              </a>
-            </div>
-            <h1 className="header__find-painter">Tekijäpankki</h1>
-          </div>
-        </nav>
-        <nav className="header__bottom">
-          <div className="container menu-content">
-            <ul className="header-menu">
-              <li className="header-menu__item">
-                <a href="/" className="header-menu__link">h</a>
-              </li>
-              <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
-              <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
-            </ul>
-            <button className="header__button btn btn_colored">Pyydä tarjous</button>
-          </div>
-        </nav>
-      </header>
+      <Header />
       {/* <main role="main" className="page">
         <div ng-controller="FindPainterCtrl as vm" className="ng-scope">
           <section role="region" className="search-panel">
