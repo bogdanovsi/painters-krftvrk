@@ -21,11 +21,19 @@ $default-myraid-pro: 'Myriad Pro';
 @mixin font-ligth {
     font-weight: 200;
 }
-
+.font-ligth  {
+    @include font-ligth;
+}
 @mixin font-normal {
     font-weight: 400;
+}
+.font-normal {
+    @include font-normal;
 }
 
 @mixin font-bold {
     font-weight: 700;
+}
+.font-bold {
+    @include font-bold;
 }

@@ -22,3 +22,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.test-class {
+  [role="tablist"]:before {
+    border: none;
+  }
+}
+
+.separator {
+  border-bottom: 1px solid #4f4f4f;
+  width: 100%;
+}
