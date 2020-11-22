@@ -24,6 +24,7 @@
     "paths": {
       "@images/*": ["images/*"],
       "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"]
     },
   },
   "include": [

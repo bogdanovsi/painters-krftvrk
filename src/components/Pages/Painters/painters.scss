@@ -72,6 +72,16 @@
         &_icon {
             border-radius: 50%;
         }
+
+        &_person {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+
+            p {
+                margin: 0;
+            }
+        }
     }
 
     &-action {

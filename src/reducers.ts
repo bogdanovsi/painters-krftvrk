@@ -1,13 +1,17 @@
-import { combineReducers, ReducersMapObject } from "redux";
-import { connectRouter } from "connected-react-router";
+import { combineReducers, Reducer, ReducersMapObject } from "redux";
+import { connectRouter, RouterState, LocationChangeAction } from "connected-react-router";
 
 import paintersReducer from '@components/Pages/Painters/reducer';
 
+export interface IGlobalState {
+  painters: any;
+}
+
 export const createRootReducer = (history) =>
-  combineReducers({
+  combineReducers<IGlobalState>({
     router: connectRouter(history),
 
     painters: paintersReducer,
-  } as ReducersMapObject<any, any>);
+  } as ReducersMapObject<IGlobalState, any>);
 
 export default createRootReducer;

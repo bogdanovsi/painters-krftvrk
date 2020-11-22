@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Unsplash, { toJson } from 'unsplash-js';
 
 import './painters.scss';
 
+import { Radio } from 'antd';
+import { Avatar, Image } from 'antd';
 import { Input } from 'antd';
 import { Row, Col } from 'antd';
 import { Divider } from 'antd';
@@ -14,6 +17,7 @@ import { Tag } from 'antd';
 import { Types } from './reducer';
 
 import mok from './mok.json';
+import { IGlobalState } from 'reducers';
 
 const { CheckableTag } = Tag;
 const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efektimaalaus', 'Sisämaalaukset', 'Lattiat', 'Kivijulkisivut ja sokkelit', 'Ovet ikkunat ja kalusteet'];
@@ -47,22 +51,33 @@ const done = (data) => ({
 
 const UNSPLASH_ACCESS_KEY = 'Yf46BuMEQjA-V2zGrYEXuDdizetbzPuqBeV788K2_Nk';
 const unsplash = new Unsplash({ accessKey: UNSPLASH_ACCESS_KEY });
-const fetchPainters = () => (dispatch) => {
-    unsplash.photos.listPhotos(1, 30, "latest")
+const fetchPainters = ({ color }) => (dispatch) => {
+    unsplash.search.photos("*", 1, 30, { color })
         .then(toJson)
         .then(res => dispatch(done(res)));
 }
+
+const colorTags = ['black_and_white', 'black', 'white', 'yellow', 'orange', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
 
 interface IProps {
     data: Array<any>
 }
 const Main = (props: IProps & IWithDispatched) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [color, setColor] = useState<string>('');
     const handleChange = (tag: string, checked: boolean) => {
         const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags);
     }
-    useEffect(() => { props.dispatch(fetchPainters()); }, []);
+    const handleColorChange = (e) => {
+        setColor(e.target.value);
+    }
+    const updatePainters = () => {
+        props.dispatch(fetchPainters({
+            color
+        }));
+    }
+    useEffect(updatePainters, []);
 
     return (
         <main>
@@ -83,6 +98,18 @@ const Main = (props: IProps & IWithDispatched) => {
                                 <TabPane tab="Palaute" key="3" />
                             </Tabs>
                         </Col>
+                    </Row>
+                </section>
+                <section className="container">
+                    <Row>
+                        <p className="font-bold" >VALITSE MAALAUSTYÖ</p>
+                    </Row>
+                    <Row>
+                        <Radio.Group value={color} onChange={handleColorChange}>
+                            {colorTags.map(tag => (
+                                <Radio.Button style={{ color: tag, borderColor: tag, margin: '0 5px', boxShadow: '2px 1px 8px black' }}  value={tag}>{tag}</Radio.Button>
+                            ))}
+                        </Radio.Group>
                     </Row>
                 </section>
                 <section className="container">
@@ -111,11 +138,16 @@ const Main = (props: IProps & IWithDispatched) => {
                 {mok.map((item, i) => (
                     <div key={i} className="painters-item">
                         <div className="painters-avatar-container">
-                            <img src={item.urls.small} width="140" height="140"/>
+                            <img src={item.urls.small} width="140" height="140" />
                         </div>
                         <div className="painters-info">
-                            <p>{item.user.name}</p>
-                            <img className="painters-info_icon" src={item.user.profile_image.small}/>
+                            <div className="painters-info_person">
+                                <Avatar
+                                    style={{ marginRight: '5px' }}
+                                    src={<Image src={item.user.profile_image.small} />}
+                                />
+                                <Link to={`/painter/${item.user.username}`}>{item.user.name}</Link>
+                            </div>
                             <p>{item.user.bio}</p>
                             <p>{item.alt_description}</p>
                         </div>
@@ -127,6 +159,6 @@ const Main = (props: IProps & IWithDispatched) => {
     );
 }
 
-export default React.memo(connect(state => ({
+export default connect((state: IGlobalState) => ({
     ...state.painters
-}))(Main));
+}))(Main);
