@@ -21,6 +21,12 @@ $image-width: 100px;
     letter-spacing: .01rem;
     text-transform: uppercase;
     margin-left   : $image-width + 80px;
+
+    @media screen and (max-width: 768px) {
+        margin-right: 20px !important;
+        margin-left: 105px!important;
+        padding: 18px 0;
+    }
 }
 
 .header__top {
@@ -50,6 +56,23 @@ $image-width: 100px;
     height    : $container-size;
     background: red;
     padding   : $padding;
+
+    img {
+        width : $image-width;
+        height: $image-width;
+    }
+
+    @media screen and (max-width: 768px) {
+        width  : 54px;
+        height : 54px;
+        padding: 2px;
+        margin: 5px;
+
+        img {
+            width : 52px;
+            height: 52px;
+        }
+    }
 }
 
 .header-menu {
@@ -82,7 +105,8 @@ $image-width: 100px;
         transition     : background .3s ease;
         text-decoration: none;
 
-        &:hover, &:visited {
+        &:hover,
+        &:visited {
             color: inherit;
         }
     }

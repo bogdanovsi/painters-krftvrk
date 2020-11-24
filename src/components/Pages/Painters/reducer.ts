@@ -1,39 +1,20 @@
 import { Reducer } from "redux";
-
-export enum Types {
-    FLUSH_STATE = 'FLUSH_STATE',
-    FETCH_PAINTERS = 'FETCH_PAINTERS'
-}
-
-export interface IFlushStateAction {
-    type: Types.FLUSH_STATE;
-}
-
-export interface IFetchDataAction {
-    type: Types.FETCH_PAINTERS;
-    data: Array<any>;
-}
-
-export const flushState = (): IFlushStateAction => {
-    return {
-        type: Types.FLUSH_STATE
-    };
-};
-
-type ActionTypes =
-    | IFlushStateAction
-    | IFetchDataAction
+import { ActionTypes, Types } from "./actions";
 
 interface Painters { }
 
-interface IPaintersState {
-    data: Array<Painters>;
+export interface IPaintersState {
+    photos: Array<any>;
+    total_page: number,
+    page: number,
     errMessage: string | null;
     isLoading: boolean;
 }
 
 const initialState: IPaintersState = {
-    data: [],
+    photos: [],
+    total_page: 1,
+    page: 1,
     errMessage: null,
     isLoading: true,
 };
@@ -47,11 +28,34 @@ const reducer = (
             return {
                 ...initialState,
             };
-        case Types.FETCH_PAINTERS:
+        case Types.FETCH_PAINTERS_LOAD: {
             return {
                 ...state,
-                data: action.data
+                isLoading: action.isLoading
+            }
+        }
+        case Types.FETCH_PAINTERS: {
+            return {
+                ...state,
+                photos: action.page === 1 ? action.photos : state.photos.concat(action.photos),
+                total_page: action.total_page,
+                page: action.page,
+                isLoading: false
             };
+        }
+        case Types.FETCH_PAINTERS_ERROR: {
+            return {
+                ...state,
+                isLoading: false,
+                errMessage: action.err.message
+            }
+        }
+        case Types.PAINTERS_CLEAR_PHOTOS: {
+            return {
+                ...state,
+                photos: []
+            }
+        }
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { List, Card } from 'antd';
@@ -13,10 +13,26 @@ const UserComponent = ({ match, ...props }) => {
     } = match;
     const [photos, setPhotos] = useState<Array<any>>([]);
     const [user, setUser] = useState<any>(null);
+    const [page, setPage] = useState<number>(1);
     useEffect(() => {
         unsplash.users.profile(painterName).then(toJson).then(setUser);
-        unsplash.users.photos(painterName, 1, 20, "latest").then(toJson).then(setPhotos);
+        unsplash.users.photos(painterName, page, 20, "latest").then(toJson).then(setPhotos);
     }, []);
+    useEffect(() => {
+        unsplash.users.photos(painterName, page, 20, "latest").then(toJson).then(newPhotos => setPhotos((prevPhotos) => prevPhotos.concat(newPhotos)));
+    }, [page])
+
+    const observer = useRef<IntersectionObserver>()
+    const lastBookElementRef = useCallback(node => {
+        if (props.isLoading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && (props.total_page - page) !== 0) {
+                setPage(prevPage => ++prevPage)
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [props.isLoading])
 
     return (
         <section className="container">

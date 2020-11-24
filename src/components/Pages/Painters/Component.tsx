@@ -1,74 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Unsplash, { toJson } from 'unsplash-js';
-
 import './painters.scss';
 
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
 import { Radio } from 'antd';
 import { Avatar, Image } from 'antd';
 import { Input } from 'antd';
 import { Row, Col } from 'antd';
 import { Divider } from 'antd';
 import { Tabs } from 'antd';
-import { AudioOutlined } from '@ant-design/icons';
 import { Tag } from 'antd';
-import { Types } from './reducer';
 
 import mok from './mok.json';
 import { IGlobalState } from 'reducers';
+import { fetchPainters } from './api';
+import { IPaintersState } from './reducer';
+import { clearPhotos } from './actions';
 
 const { CheckableTag } = Tag;
 const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efektimaalaus', 'Sisämaalaukset', 'Lattiat', 'Kivijulkisivut ja sokkelit', 'Ovet ikkunat ja kalusteet'];
 const { TabPane } = Tabs;
 const { Search } = Input;
 
-
-
-const suffix = (
-    <AudioOutlined
-        style={{
-            fontSize: 16,
-            color: '#1890ff',
-        }}
-    />
-);
-
-const onSearch = (value: string) => console.log(value);
-
 export interface IWithDispatched {
     // tslint:disable-next-line:no-any
     dispatch: (...args: any[]) => void;
 }
-
-const done = (data) => ({
-    type: Types.FETCH_PAINTERS,
-    data
-})
-
-const UNSPLASH_ACCESS_KEY = 'Yf46BuMEQjA-V2zGrYEXuDdizetbzPuqBeV788K2_Nk';
-const unsplash = new Unsplash({ accessKey: UNSPLASH_ACCESS_KEY });
-
-const fetchPainters = ({ search, color, orientation, selectedTags }) => (dispatch) => {
-    unsplash.search.photos(search, 1, 30, { color, orientation })
-        .then(toJson)
-        .then(res => {
-            res.results && dispatch(done(res.results))
-        });
-}
-
-const colorTags = ['black_and_white', 'black', 'white', 'yellow', '#ffa500', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
+const colorTags = ['black_and_white', 'black', 'white', 'yellow', 'orange', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
 export type Orientation = 'portrait' | 'landscape' | 'squareish';
 
-interface IProps {
-    data: Array<any>
-}
+interface IProps extends IPaintersState { }
 const Main = (props: IProps & IWithDispatched) => {
     const [orientation, setOrientation] = useState<Orientation | string>('portrait');
     const [color, setColor] = useState<string>('');
     const [search, setSearch] = useState<string>('photos');
+    const [page, setPage] = useState<number>(1);
     const onSearch = (text: string) => {
         setSearch(text || 'photo');
     }
@@ -79,25 +47,43 @@ const Main = (props: IProps & IWithDispatched) => {
         setSelectedTags(nextSelectedTags);
     }
 
-    const handleColorChange = (e) => {
-        setColor(e.target.value);
-    }
-    const updatePainters = () => {
+    const handleColorChange = (e) => { setColor(e.target.value); }
+    useEffect(() => {
+        props.dispatch(clearPhotos());
+        setPage(1);
         props.dispatch(fetchPainters({
             search,
             color,
-            orientation,
-            selectedTags
-        }));
-    }
-    useEffect(updatePainters, [color, orientation, selectedTags, search]);
+            orientation
+        }, 1));
+    }, [color, orientation, search])
+
+    // useEffect(() => {
+    //     props.dispatch(fetchPainters({
+    //         search,
+    //         color,
+    //         orientation
+    //     }, page));
+    // }, [page]);
+
+    const observer = useRef<IntersectionObserver>()
+    const lastBookElementRef = useCallback(node => {
+        if (props.isLoading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && (props.total_page - page) !== 0) {
+                setPage(prevPage => ++prevPage)
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [props.isLoading])
 
     return (
         <main>
-            <section style={{ background: '#f7f7f7'}}>
+            <section style={{ background: '#f7f7f7' }}>
                 <section className="search-panel">
                     <div className="container">
-                        <Row align={'middle'}>
+                        <Row wrap={true} align={'middle'}>
                             <Col span={4}>
                                 <p className="m0 tt-upper font-bold">Hae</p>
                             </Col>
@@ -105,7 +91,7 @@ const Main = (props: IProps & IWithDispatched) => {
                                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
                             </Col>
                             <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <p className="m0 tt-upper font-bold" style={{ marginRight: '5px' }}>LAJITTELUPERUSTE</p>
+                                <p className="m0 tt-upper font-bold" style={{ marginRight: '5px', padding: '12px 0' }}>LAJITTELUPERUSTE</p>
                                 <Tabs className="tab-list" defaultActiveKey={orientation} onChange={setOrientation}>
                                     <TabPane tab="portrait" key="portrait" />
                                     <TabPane tab="landscape" key="landscape" />
@@ -122,36 +108,19 @@ const Main = (props: IProps & IWithDispatched) => {
                     <Row>
                         <Radio.Group value={color} onChange={handleColorChange}>
                             {colorTags.map(tag => (
-                                <Radio.Button style={{ margin: '0 5px', boxShadow: `${tag} 0px 0px 6px 1px, black 0px 1px 4px 0px` }} value={tag}>{tag}</Radio.Button>
+                                <Radio.Button key={tag} style={{ margin: '0 5px', marginBottom: '10px', boxShadow: `${tag} 0px 0px 6px 1px, black 0px 1px 4px 0px` }} value={tag}>{tag}</Radio.Button>
                             ))}
                         </Radio.Group>
                     </Row>
                 </section>
-                {/* <section className="section-block container">
-                    <Row>
-                        <p className="font-bold" >VALITSE MAALAUSTYÖ</p>
-                    </Row>
-                    <Row>
-                        {tagsData.map(tag => (
-                            <CheckableTag
-                                key={tag}
-                                checked={selectedTags.indexOf(tag) > -1}
-                                onChange={checked => handleChange(tag, checked)}
-                                className="search-tag"
-                            >
-                                {tag}
-                            </CheckableTag>
-                        ))}
-                    </Row>
-                </section> */}
                 <Divider />
                 <section className="container font-normal" style={{ textAlign: 'center' }}>
                     <p className="font-normal">Etsi projektiisi sopivia urakoitsijoita ja pyydä tarjous!</p>
                 </section>
             </section>
             <section className="section-block container">
-                {props.data.length > 0 ? props.data.map((item, i) => (
-                    <div key={i} className="painters-item">
+                {props.photos && props.photos.length > 0 ? props.photos.map((item, i, data) => (
+                    <div key={i} ref={node => { ++i === data.length && lastBookElementRef(node); }} className="painters-item">
                         <div className="painters-avatar-container">
                             <img src={item.urls.small} width="140" height="140" />
                         </div>
@@ -168,7 +137,8 @@ const Main = (props: IProps & IWithDispatched) => {
                         </div>
                         <div className="painters-action"><button className="painters-action_btn">Action</button></div>
                     </div>
-                )) : <Empty />}
+                )) : (!props.isLoading && <Empty />)}
+                {props.isLoading && <Spin size="large" style={{ width: '100%'}} />}
             </section>
         </main>
     );
