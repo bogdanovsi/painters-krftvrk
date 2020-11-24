@@ -1,7 +1,7 @@
 import React from 'react';
 
 import logo from '@images/logo.png';
-import styles from './header.module.scss';
+import './header.scss';
 
 interface IProps { }
 const Header = (props: IProps) => {
@@ -26,7 +26,9 @@ const Header = (props: IProps) => {
               <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
               <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
             </ul>
-            <button className="header__button btn btn_colored">Pyydä tarjous</button>
+            <div className="header__button-container">
+              <button className="header__button btn btn_colored">Pyydä tarjous</button>
+            </div>
           </div>
         </nav>
       </header>
