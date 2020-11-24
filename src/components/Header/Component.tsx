@@ -36,6 +36,35 @@ const Header = (props: IProps) => {
             <button className="header__button btn_transparent">Pyydä tarjous</button>
           </div>
         </div>
+        <div className="menu-content__mobile">
+          <input
+            type='checkbox'
+            className='burger__checkbox'
+            id={"burger-menu-inp"}
+          />
+
+          <label
+            className='burger'
+            htmlFor={"burger-menu-inp"}
+          >
+            <div className='burger__line' />
+            <div className='burger__line' />
+            <div className='burger__line' />
+          </label>
+          <div
+            className='burger__menu'
+          >
+            <ul className="header-menu">
+              <li className="header-menu__item">
+                <a href="/" className="header-menu__link">
+                  <HomeOutlined />
+                </a>
+              </li>
+              <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
+              <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
   );
