@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './footer.module.scss';
+import './footer.scss';
 
 interface IProps { }
 const Footer = (props: IProps) => {

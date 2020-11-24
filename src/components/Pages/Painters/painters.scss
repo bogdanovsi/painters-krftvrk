@@ -1,44 +1,49 @@
-.search-tag {
-    min-height: 25px;
-    padding: 0 14px;
-    border-radius: 30px;
-    color: #282828;
-    line-height: 23px;
-    border: 1px solid #867d67;
-    font-size: 1.2rem;
-    font-weight: 400;
-    text-shadow: none;
+.search-panel {
+    padding   : 12px 0;
+    background: linear-gradient(0deg, #e2e2e1, #fffffe);
+}
 
-    margin-top: 5px;
+.search-tag {
+    min-height   : 25px;
+    padding      : 0 14px;
+    border-radius: 30px;
+    color        : #282828;
+    line-height  : 23px;
+    border       : 1px solid #867d67;
+    font-size    : 1.2rem;
+    font-weight  : 400;
+    text-shadow  : none;
+
+    margin-top : 5px;
     margin-left: 9px;
 }
 
 .tekijapankki-btn {
-    display: inline-block;
-    min-height: 30px;
-    padding: 0 15px;
-    border: 1px solid rgba(0,0,0,.3);
-    border-radius: 0;
-    background-color: #fff;
-    background-image: none;
-    background-origin: border-box;
-    color: #666;
-    font: inherit;
-    font-weight: 700;
-    line-height: 28px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #fff;
-    text-transform: none;
-    overflow: visible;
-    vertical-align: middle;
+    display           : inline-block;
+    min-height        : 30px;
+    padding           : 0 15px;
+    border            : 1px solid rgba(0, 0, 0, .3);
+    border-radius     : 0;
+    background-color  : #fff;
+    background-image  : none;
+    background-origin : border-box;
+    color             : #666;
+    font              : inherit;
+    font-weight       : 700;
+    line-height       : 28px;
+    text-align        : center;
+    text-decoration   : none;
+    text-shadow       : 0 1px 0 #fff;
+    text-transform    : none;
+    overflow          : visible;
+    vertical-align    : middle;
     -webkit-appearance: none;
 
-    padding: 3px 14px;
-    border: 1px solid #867d67;
-    color: #867d67;
-    font-size: 14.399px;
-    font-size: 1.2rem;
+    padding    : 3px 14px;
+    border     : 1px solid #867d67;
+    color      : #867d67;
+    font-size  : 14.399px;
+    font-size  : 1.2rem;
     font-weight: 400;
 
     &:not(:disabled) {
@@ -46,25 +51,30 @@
     }
 }
 
+.section-block {
+    padding: 12px 0;
+}
+
 .painters {
 
     &-item {
         display: flex;
-        
         padding: 18px 0;
+        margin-bottom: 5px;
 
         &:not(:last-child) {
+            margin-top: 5px;
             border-bottom: 1px solid #ccc;
         }
     }
 
     &-avatar-container {
-        float: left;
+        float       : left;
         margin-right: 20px;
     }
 
     &-info {
-        flex: 1;
+        flex        : 1;
         padding-left: 10px;
 
         border-right: 1px dotted #ccc;
@@ -74,8 +84,8 @@
         }
 
         &_person {
-            display: flex;
-            align-items: center;
+            display      : flex;
+            align-items  : center;
             margin-bottom: 5px;
 
             p {
@@ -85,21 +95,21 @@
     }
 
     &-action {
-        min-width: 140px;
+        min-width   : 140px;
         padding-left: 10px;
 
         &_btn {
             @extend .tekijapankki-btn;
 
-            width: 100%;
-            min-width: 136px;
-            padding: 3px 11px;
+            width       : 100%;
+            min-width   : 136px;
+            padding     : 3px 11px;
             border-color: #548235;
-            color: #548235;
+            color       : #548235;
 
             &:hover {
                 background-color: #8bd000;
-                color: white;
+                color           : white;
             }
 
             &:focus {
@@ -110,17 +120,8 @@
 
 }
 
-
-
-// <div key={i} className="painters-item">
-// <div className="painters-avatar-container">
-//     <img src={item.urls.small} width="140" height="140"/>
-// </div>
-// <div className="painters-info">
-//     <p>{item.user.name}</p>
-//     <p><img src={item.user.profile_image.small}/></p>
-//     <p>{item.user.bio}</p>
-//     <p>{item.alt_description}</p>
-// </div>
-// <div className="painters-action"><button className="painters-action_btn">Action</button></div>
-// </div>
+.tab-list {
+    [role="tablist"]:before {
+        border: none;
+    }
+}

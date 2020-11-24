@@ -6,6 +6,7 @@ import Unsplash, { toJson } from 'unsplash-js';
 
 import './painters.scss';
 
+import { Empty } from 'antd';
 import { Radio } from 'antd';
 import { Avatar, Image } from 'antd';
 import { Input } from 'antd';
@@ -24,9 +25,7 @@ const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efekti
 const { TabPane } = Tabs;
 const { Search } = Input;
 
-function callback(key: string) {
-    console.log(key);
-}
+
 
 const suffix = (
     <AudioOutlined
@@ -51,68 +50,84 @@ const done = (data) => ({
 
 const UNSPLASH_ACCESS_KEY = 'Yf46BuMEQjA-V2zGrYEXuDdizetbzPuqBeV788K2_Nk';
 const unsplash = new Unsplash({ accessKey: UNSPLASH_ACCESS_KEY });
-const fetchPainters = ({ color }) => (dispatch) => {
-    unsplash.search.photos("*", 1, 30, { color })
+
+const fetchPainters = ({ search, color, orientation, selectedTags }) => (dispatch) => {
+    unsplash.search.photos(search, 1, 30, { color, orientation })
         .then(toJson)
-        .then(res => dispatch(done(res)));
+        .then(res => {
+            res.results && dispatch(done(res.results))
+        });
 }
 
-const colorTags = ['black_and_white', 'black', 'white', 'yellow', 'orange', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
+const colorTags = ['black_and_white', 'black', 'white', 'yellow', '#ffa500', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
+export type Orientation = 'portrait' | 'landscape' | 'squareish';
 
 interface IProps {
     data: Array<any>
 }
 const Main = (props: IProps & IWithDispatched) => {
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [orientation, setOrientation] = useState<Orientation | string>('portrait');
     const [color, setColor] = useState<string>('');
+    const [search, setSearch] = useState<string>('photos');
+    const onSearch = (text: string) => {
+        setSearch(text || 'photo');
+    }
+
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const handleChange = (tag: string, checked: boolean) => {
         const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags);
     }
+
     const handleColorChange = (e) => {
         setColor(e.target.value);
     }
     const updatePainters = () => {
         props.dispatch(fetchPainters({
-            color
+            search,
+            color,
+            orientation,
+            selectedTags
         }));
     }
-    useEffect(updatePainters, []);
+    useEffect(updatePainters, [color, orientation, selectedTags, search]);
 
     return (
         <main>
-            <section>
-                <section className="container">
-                    <Row>
-                        <Col span={4}>
-                            <p className="font-bold">Hae</p>
-                        </Col>
-                        <Col span={12}>
-                            <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
-                        </Col>
-                        <Col span={8}>
-                            <p className="font-bold">LAJITTELUPERUSTE</p>
-                            <Tabs className="test-class" defaultActiveKey="1" onChange={callback}>
-                                <TabPane tab="Työnäytteet" key="1" />
-                                <TabPane tab="Nimi" key="2" />
-                                <TabPane tab="Palaute" key="3" />
-                            </Tabs>
-                        </Col>
-                    </Row>
+            <section style={{ background: '#f7f7f7'}}>
+                <section className="search-panel">
+                    <div className="container">
+                        <Row align={'middle'}>
+                            <Col span={4}>
+                                <p className="m0 tt-upper font-bold">Hae</p>
+                            </Col>
+                            <Col span={10}>
+                                <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
+                            </Col>
+                            <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <p className="m0 tt-upper font-bold" style={{ marginRight: '5px' }}>LAJITTELUPERUSTE</p>
+                                <Tabs className="tab-list" defaultActiveKey={orientation} onChange={setOrientation}>
+                                    <TabPane tab="portrait" key="portrait" />
+                                    <TabPane tab="landscape" key="landscape" />
+                                    <TabPane tab="squareish" key="squareish" />
+                                </Tabs>
+                            </Col>
+                        </Row>
+                    </div>
                 </section>
-                <section className="container">
+                <section className="section-block container">
                     <Row>
                         <p className="font-bold" >VALITSE MAALAUSTYÖ</p>
                     </Row>
                     <Row>
                         <Radio.Group value={color} onChange={handleColorChange}>
                             {colorTags.map(tag => (
-                                <Radio.Button style={{ color: tag, borderColor: tag, margin: '0 5px', boxShadow: '2px 1px 8px black' }}  value={tag}>{tag}</Radio.Button>
+                                <Radio.Button style={{ margin: '0 5px', boxShadow: `${tag} 0px 0px 6px 1px, black 0px 1px 4px 0px` }} value={tag}>{tag}</Radio.Button>
                             ))}
                         </Radio.Group>
                     </Row>
                 </section>
-                <section className="container">
+                {/* <section className="section-block container">
                     <Row>
                         <p className="font-bold" >VALITSE MAALAUSTYÖ</p>
                     </Row>
@@ -128,14 +143,14 @@ const Main = (props: IProps & IWithDispatched) => {
                             </CheckableTag>
                         ))}
                     </Row>
-                </section>
+                </section> */}
                 <Divider />
                 <section className="container font-normal" style={{ textAlign: 'center' }}>
                     <p className="font-normal">Etsi projektiisi sopivia urakoitsijoita ja pyydä tarjous!</p>
                 </section>
             </section>
-            <section className="container">
-                {mok.map((item, i) => (
+            <section className="section-block container">
+                {props.data.length > 0 ? props.data.map((item, i) => (
                     <div key={i} className="painters-item">
                         <div className="painters-avatar-container">
                             <img src={item.urls.small} width="140" height="140" />
@@ -153,7 +168,7 @@ const Main = (props: IProps & IWithDispatched) => {
                         </div>
                         <div className="painters-action"><button className="painters-action_btn">Action</button></div>
                     </div>
-                ))}
+                )) : <Empty />}
             </section>
         </main>
     );
