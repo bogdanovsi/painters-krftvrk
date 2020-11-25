@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import './painters.scss';
 
 import { Empty, Spin } from 'antd';
 import { Radio } from 'antd';
+import { Link } from 'react-router-dom';
 import { Avatar, Image } from 'antd';
 import { Input } from 'antd';
 import { Row, Col } from 'antd';
@@ -17,7 +17,9 @@ import mok from './mok.json';
 import { IGlobalState } from 'reducers';
 import { fetchPainters } from './api';
 import { IPaintersState } from './reducer';
-import { clearPhotos } from './actions';
+import { choosePainterState, clearPhotos } from './actions';
+
+import PhotoItem from '@components/PhotoItem';
 
 const { CheckableTag } = Tag;
 const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efektimaalaus', 'Sisämaalaukset', 'Lattiat', 'Kivijulkisivut ja sokkelit', 'Ovet ikkunat ja kalusteet'];
@@ -119,26 +121,28 @@ const Main = (props: IProps & IWithDispatched) => {
                 </section>
             </section>
             <section className="section-block container">
-                {props.photos && props.photos.length > 0 ? props.photos.map((item, i, data) => (
-                    <div key={i} ref={node => { ++i === data.length && lastBookElementRef(node); }} className="painters-item">
+                {props.photos && props.photos.length > 0 ? props.photos.map((photo, i, data) => (
+                    <div key={photo.id} ref={node => { ++i === data.length && lastBookElementRef(node) }} className="painters-item">
                         <div className="painters-avatar-container">
-                            <img src={item.urls.small} width="140" height="140" />
+                            <img src={photo.urls.small} width="140" height="140" />
                         </div>
                         <div className="painters-info">
                             <div className="painters-info_person">
                                 <Avatar
                                     style={{ marginRight: '5px' }}
-                                    src={<Image src={item.user.profile_image.small} />}
+                                    src={<Image src={photo.user.profile_image.small} />}
                                 />
-                                <Link to={`/painter/${item.user.username}`}>{item.user.name}</Link>
+                                <Link to={`/painter/${photo.user.username}`}>{photo.user.name}</Link>
                             </div>
-                            <p>{item.user.bio}</p>
-                            <p>{item.alt_description}</p>
+                            <p>{photo.user.bio}</p>
+                            <p>{photo.alt_description}</p>
                         </div>
-                        <div className="painters-action"><button className="painters-action_btn">Action</button></div>
+                        <div className="painters-action"><button onClick={(ev) => {
+                            props.dispatch(choosePainterState(photo))
+                        }} className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : '' }`}>Action</button></div>
                     </div>
                 )) : (!props.isLoading && <Empty />)}
-                {props.isLoading && <Spin size="large" style={{ width: '100%'}} />}
+                {props.isLoading && <Spin size="large" style={{ width: '100%' }} />}
             </section>
         </main>
     );

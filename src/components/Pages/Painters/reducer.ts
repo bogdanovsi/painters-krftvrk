@@ -5,6 +5,7 @@ interface Painters { }
 
 export interface IPaintersState {
     photos: Array<any>;
+    choosePhotosId: Array<string>;
     total_page: number,
     page: number,
     errMessage: string | null;
@@ -13,6 +14,7 @@ export interface IPaintersState {
 
 const initialState: IPaintersState = {
     photos: [],
+    choosePhotosId: [],
     total_page: 1,
     page: 1,
     errMessage: null,
@@ -54,6 +56,12 @@ const reducer = (
             return {
                 ...state,
                 photos: []
+            }
+        }
+        case Types.CHOOSE_PAINTER: {
+            return {
+                ...state,
+                choosePhotosId: [...state.choosePhotosId, action.photo.id]
             }
         }
         default:

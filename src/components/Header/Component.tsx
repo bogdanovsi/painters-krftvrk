@@ -6,8 +6,11 @@ import {
 
 import logo from '@images/logo.png';
 import './header.scss';
+import { IGlobalState } from 'reducers';
+import { connect } from 'react-redux';
+import { IPaintersState } from '@components/Pages/Painters/reducer';
 
-interface IProps { }
+interface IProps { choosePhotosId?: Array<string> }
 const Header = (props: IProps) => {
   return (
     <header role="banner" className="header">
@@ -33,7 +36,7 @@ const Header = (props: IProps) => {
             <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
           </ul>
           <div className="header__button-container">
-            <button className="header__button btn_transparent">Pyydä tarjous</button>
+            <button className={`header__button btn_transparent ${props.choosePhotosId && props.choosePhotosId.length && 'header__button_choosed'}`}>Pyydä tarjous<span>{props.choosePhotosId && props.choosePhotosId.length}</span></button>
           </div>
         </div>
         <div className="menu-content__mobile">
@@ -70,4 +73,6 @@ const Header = (props: IProps) => {
   );
 }
 
-export default React.memo(Header);
+export default connect((state: IGlobalState) => ({
+  ...state.painters
+}))(React.memo(Header));

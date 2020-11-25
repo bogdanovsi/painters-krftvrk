@@ -177,6 +177,12 @@ $image-width: 100px;
     float     : right;
     min-width : 140px;
     text-align: center;
+
+    &_choosed {
+        background: #6ecd5b;
+        color: #fff;
+        opacity: 1;
+    }
 }
 
 .burger {

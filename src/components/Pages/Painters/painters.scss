@@ -132,7 +132,18 @@
             &:focus {
                 outline: none;
             }
+
+            &__choosed {
+                background: #6ecd5b;
+                color: #fff;
+
+                &:before {
+                    content: '✔';
+                    margin-right: 5px;
+                }
+            }
         }
+
     }
 
 }
