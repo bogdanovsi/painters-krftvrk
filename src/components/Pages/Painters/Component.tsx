@@ -85,22 +85,22 @@ const Main = (props: IProps & IWithDispatched) => {
             <section style={{ background: '#f7f7f7' }}>
                 <section className="search-panel">
                     <div className="container">
-                        <Row wrap={true} align={'middle'}>
-                            <Col span={4}>
+                        <div className="search-panel__content">
+                            <div className="search-panel__col">
                                 <p className="m0 tt-upper font-bold">Hae</p>
-                            </Col>
-                            <Col span={10}>
+                            </div>
+                            <div className="search-panel__col" style={{flexGrow: 2}}>
                                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
-                            </Col>
-                            <Col span={10} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            </div>
+                            <div className="search-panel__col search-panel__tabs">
                                 <p className="m0 tt-upper font-bold" style={{ marginRight: '5px', padding: '12px 0' }}>LAJITTELUPERUSTE</p>
                                 <Tabs className="tab-list" defaultActiveKey={orientation} onChange={setOrientation}>
                                     <TabPane tab="portrait" key="portrait" />
                                     <TabPane tab="landscape" key="landscape" />
                                     <TabPane tab="squareish" key="squareish" />
                                 </Tabs>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <section className="section-block container">
@@ -139,7 +139,7 @@ const Main = (props: IProps & IWithDispatched) => {
                         </div>
                         <div className="painters-action"><button onClick={(ev) => {
                             props.dispatch(choosePainterState(photo))
-                        }} className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : '' }`}>Action</button></div>
+                        }} className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : ''}`}>Action</button></div>
                     </div>
                 )) : (!props.isLoading && <Empty />)}
                 {props.isLoading && <Spin size="large" style={{ width: '100%' }} />}

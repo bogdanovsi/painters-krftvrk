@@ -44,6 +44,7 @@ $image-width: 100px;
         display        : flex;
         align-items    : center;
         justify-content: flex-end;
+        padding        : 0;
     }
 
     .menu-content {
@@ -57,6 +58,8 @@ $image-width: 100px;
 
         &__mobile {
             display: none;
+            padding-top: 5px;
+            width  : 100%;
 
             @media screen and (max-width: 768px) {
                 display: block;
@@ -97,6 +100,7 @@ $image-width: 100px;
 }
 
 .header-menu {
+    width: 100%;
     float         : left;
     font-size     : 15.6px;
     font-size     : 1.3rem;
@@ -106,6 +110,11 @@ $image-width: 100px;
     padding       : 0;
     margin        : 0;
     margin-left   : $image-width + 80px;
+
+    @media screen and (max-width: 700px) {
+        margin-left: 0;
+        margin-top: 10px;
+    }
 
     li {
         margin    : 0;
@@ -117,6 +126,13 @@ $image-width: 100px;
         display       : inline-block;
         margin-right  : -4px;
         vertical-align: middle;
+
+        @media screen and (max-width: 700px) {
+            display: block;
+            background: #5e5748;
+            width: 100%;
+            border-bottom: 1px solid #867d67;
+        }
     }
 
     &__link {
@@ -129,6 +145,14 @@ $image-width: 100px;
         &:hover,
         &:visited {
             color: inherit;
+        }
+
+        @media screen and (max-width: 700px) {
+            text-align: left;
+
+            &:hover {
+
+            }
         }
     }
 }
@@ -174,46 +198,48 @@ $image-width: 100px;
 }
 
 .header__button {
-    display: flex;
-    align-items: center;
-    padding: 5px;
+    display        : flex;
+    align-items    : center;
+    padding        : 5px;
     justify-content: space-around;
-    
+
     float     : right;
     min-width : 120px;
     text-align: center;
 
     &_choosed {
         background: #6ecd5b;
-        color: #fff;
-        opacity: 1;
+        color     : #fff;
+        opacity   : 1;
     }
 }
 
 .button-counter_rounded {
-    display: inline-block;
-    width: 20px;
-    margin-right: -4px;
-    margin-left: 12px;
-    padding: 4px 0;
-    border-radius: 100%;
-    background: #fff;
-    color: #4f4f4f;
-    font-size: 12px;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
+    display       : inline-block;
+    width         : 20px;
+    margin-right  : -4px;
+    margin-left   : 12px;
+    padding       : 4px 0;
+    border-radius : 100%;
+    background    : #fff;
+    color         : #4f4f4f;
+    font-size     : 12px;
+    font-size     : 1rem;
+    font-weight   : 400;
+    line-height   : 1;
+    text-align    : center;
     vertical-align: text-bottom;
 }
 
 .burger {
     z-index      : 1;
     margin-bottom: 0;
+    float        : right;
+    margin       : 10px 0;
 
     &__line {
-        width        : 24px;
-        height       : 2px;
+        width        : 30px;
+        height       : 3px;
         background   : white;
         margin-bottom: 4px;
 
@@ -245,10 +271,11 @@ $image-width: 100px;
     }
 
     &__checkbox {
-        display              : block;
+        display              : inline-block;
         opacity              : 0;
         z-index              : 2;
         -webkit-touch-callout: none;
+        float                : right;
 
         &:checked {
             outline: none;

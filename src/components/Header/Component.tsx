@@ -10,6 +10,18 @@ import { IGlobalState } from 'reducers';
 import { connect } from 'react-redux';
 import { IPaintersState } from '@components/Pages/Painters/reducer';
 
+const HeaderMenu = () => (
+  <ul className="header-menu">
+    <li className="header-menu__item">
+      <a href="/" className="header-menu__link">
+        <HomeOutlined />
+      </a>
+    </li>
+    <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
+    <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
+  </ul>
+);
+
 interface IProps { choosePhotosId?: Array<string> }
 const Header = (props: IProps) => {
   return (
@@ -26,15 +38,7 @@ const Header = (props: IProps) => {
       </nav>
       <nav className="header__bottom">
         <div className="container menu-content">
-          <ul className="header-menu">
-            <li className="header-menu__item">
-              <a href="/" className="header-menu__link">
-                <HomeOutlined />
-              </a>
-            </li>
-            <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
-            <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
-          </ul>
+          <HeaderMenu />
           <div className="header__button-container">
             <button className={`header__button btn_transparent ${props.choosePhotosId && props.choosePhotosId.length && 'header__button_choosed'}`}>
               Pyydä tarjous
@@ -60,15 +64,7 @@ const Header = (props: IProps) => {
           <div
             className='burger__menu'
           >
-            <ul className="header-menu">
-              <li className="header-menu__item">
-                <a href="/" className="header-menu__link">
-                  <HomeOutlined />
-                </a>
-              </li>
-              <li className="header-menu__item"><a href="/painters" className="header-menu__link">Tekijät</a></li>
-              <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
-            </ul>
+            <HeaderMenu />
           </div>
         </div>
       </nav>
