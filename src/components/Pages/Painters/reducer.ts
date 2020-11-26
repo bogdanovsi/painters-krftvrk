@@ -61,7 +61,7 @@ const reducer = (
         case Types.CHOOSE_PAINTER: {
             return {
                 ...state,
-                choosePhotosId: [...state.choosePhotosId, action.photo.id]
+                choosePhotosId: [...new Set([...state.choosePhotosId, action.photo.id])]
             }
         }
         default:

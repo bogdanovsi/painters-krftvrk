@@ -174,8 +174,13 @@ $image-width: 100px;
 }
 
 .header__button {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    justify-content: space-around;
+    
     float     : right;
-    min-width : 140px;
+    min-width : 120px;
     text-align: center;
 
     &_choosed {
@@ -183,6 +188,23 @@ $image-width: 100px;
         color: #fff;
         opacity: 1;
     }
+}
+
+.button-counter_rounded {
+    display: inline-block;
+    width: 20px;
+    margin-right: -4px;
+    margin-left: 12px;
+    padding: 4px 0;
+    border-radius: 100%;
+    background: #fff;
+    color: #4f4f4f;
+    font-size: 12px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    vertical-align: text-bottom;
 }
 
 .burger {

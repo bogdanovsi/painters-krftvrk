@@ -36,7 +36,10 @@ const Header = (props: IProps) => {
             <li className="header-menu__item"><a href="/about" className="header-menu__link">Tietoa palvelusta</a></li>
           </ul>
           <div className="header__button-container">
-            <button className={`header__button btn_transparent ${props.choosePhotosId && props.choosePhotosId.length && 'header__button_choosed'}`}>Pyydä tarjous<span>{props.choosePhotosId && props.choosePhotosId.length}</span></button>
+            <button className={`header__button btn_transparent ${props.choosePhotosId && props.choosePhotosId.length && 'header__button_choosed'}`}>
+              Pyydä tarjous
+              {props.choosePhotosId && props.choosePhotosId.length > 0 && <b className="button-counter_rounded">{props.choosePhotosId.length}</b>}
+            </button>
           </div>
         </div>
         <div className="menu-content__mobile">
