@@ -57,13 +57,13 @@ const Main = (props: IProps & IWithDispatched) => {
         }, 1));
     }, [color, orientation, search])
 
-    // useEffect(() => {
-    //     props.dispatch(fetchPainters({
-    //         search,
-    //         color,
-    //         orientation
-    //     }, page));
-    // }, [page]);
+    useEffect(() => {
+        props.dispatch(fetchPainters({
+            search,
+            color,
+            orientation
+        }, page));
+    }, [page]);
 
     const observer = useRef<IntersectionObserver>()
     const lastBookElementRef = useCallback(node => {
