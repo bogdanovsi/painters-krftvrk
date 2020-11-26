@@ -70,6 +70,12 @@ const reducer = (
                 choosePhotosId: [...state.choosePhotosId].filter(id => id !== action.photo.id)
             }
         }
+        case Types.CLEAR_PAINTER: {
+            return {
+                ...state,
+                choosePhotosId: []
+            }
+        }
         default:
             return state;
     }

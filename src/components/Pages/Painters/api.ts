@@ -1,8 +1,7 @@
 import Unsplash, { toJson } from 'unsplash-js';
 import { done, isError, isLoading } from './actions';
 
-const UNSPLASH_ACCESS_KEY = 'Yf46BuMEQjA-V2zGrYEXuDdizetbzPuqBeV788K2_Nk';
-const unsplash = new Unsplash({ accessKey: UNSPLASH_ACCESS_KEY });
+import unsplash from '../../../unsplash';
 
 export const fetchPainters = ({ search, color, orientation }, page = 1) => (dispatch) => {
     dispatch(isLoading(true));

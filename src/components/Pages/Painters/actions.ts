@@ -6,6 +6,7 @@ export type ActionTypes =
     | IClearPhotosAction
     | IChoosePainterAction
     | IRemovePainterAction
+    | IClearPainterAction
 
 export enum Types {
     FLUSH_STATE = 'FLUSH_STATE',
@@ -15,6 +16,7 @@ export enum Types {
     PAINTERS_CLEAR_PHOTOS = 'PAINTERS_CLEAR_PHOTOS',
     CHOOSE_PAINTER = 'CHOOSE_PAINTER',
     REMOVE_PAINTER = 'REMOVE_PAINTER',
+    CLEAR_PAINTER = 'CLEAR_PAINTER'
 }
 
 export interface IChoosePainterAction {
@@ -36,6 +38,15 @@ export const removePainterState = (photo): IRemovePainterAction => {
     return {
         type: Types.REMOVE_PAINTER,
         photo
+    };
+}
+
+export interface IClearPainterAction {
+    type: Types.CLEAR_PAINTER;
+}
+export const clearPainterState = (): IClearPainterAction => {
+    return {
+        type: Types.CLEAR_PAINTER
     };
 }
 

@@ -25,7 +25,6 @@ const { TabPane } = Tabs;
 const { Search } = Input;
 
 export interface IWithDispatched {
-    // tslint:disable-next-line:no-any
     dispatch: (...args: any[]) => void;
 }
 const colorTags = ['black_and_white', 'black', 'white', 'yellow', 'orange', 'red', 'purple', 'magenta', 'green', 'teal', 'blue']
@@ -149,7 +148,7 @@ const Main = (props: IProps & IWithDispatched) => {
                             <button
                                 onClick={(ev) => { ev.preventDefault(); onActionClick(photo); }}
                                 className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : ''}`}>
-                                Action
+                                Add to card
                             </button>
                         </div>
                     </div>

@@ -349,6 +349,7 @@ module.exports = function (webpackEnv) {
         new TsconfigPathsPlugin({
           configFile: './tsconfig.json'
         }),
+        // new DotEnv()
       ],
     },
     resolveLoader: {
