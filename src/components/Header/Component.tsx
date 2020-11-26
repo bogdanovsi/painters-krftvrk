@@ -4,18 +4,17 @@ import {
   HomeOutlined
 } from '@ant-design/icons';
 
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import { Carousel } from 'antd';
 import logo from '@images/logo.png';
 import './header.scss';
 import { IGlobalState } from 'reducers';
 import { connect, useDispatch } from 'react-redux';
 
-import { Empty, Spin } from 'antd';
+import { Spin } from 'antd';
 
 import unsplash from '../../unsplash';
 import { toJson } from 'unsplash-js';
-import { IWithDispatched } from '@components/Pages/Painters/Component';
 import { clearPainterState } from '@components/Pages/Painters/actions';
 
 const HeaderMenu = () => (
@@ -111,7 +110,7 @@ const Header = (props: IProps) => {
       </nav>
     </header>
     <Modal
-      title="Basic Modal"
+      title="Painters"
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
