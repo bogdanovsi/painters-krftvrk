@@ -64,6 +64,12 @@ const reducer = (
                 choosePhotosId: [...new Set([...state.choosePhotosId, action.photo.id])]
             }
         }
+        case Types.REMOVE_PAINTER: {
+            return {
+                ...state,
+                choosePhotosId: [...state.choosePhotosId].filter(id => id !== action.photo.id)
+            }
+        }
         default:
             return state;
     }

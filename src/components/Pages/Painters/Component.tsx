@@ -17,9 +17,7 @@ import mok from './mok.json';
 import { IGlobalState } from 'reducers';
 import { fetchPainters } from './api';
 import { IPaintersState } from './reducer';
-import { choosePainterState, clearPhotos } from './actions';
-
-import PhotoItem from '@components/PhotoItem';
+import { choosePainterState, clearPhotos, removePainterState } from './actions';
 
 const { CheckableTag } = Tag;
 const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efektimaalaus', 'Sisämaalaukset', 'Lattiat', 'Kivijulkisivut ja sokkelit', 'Ovet ikkunat ja kalusteet'];
@@ -80,6 +78,16 @@ const Main = (props: IProps & IWithDispatched) => {
         if (node) observer.current.observe(node)
     }, [props.isLoading])
 
+    const onActionClick = (photo) => {
+        if (props.choosePhotosId) {
+            if (props.choosePhotosId.indexOf(photo.id) === -1) {
+                props.dispatch(choosePainterState(photo))
+            } else {
+                props.dispatch(removePainterState(photo))
+            }
+        }
+    }
+
     return (
         <main>
             <section style={{ background: '#f7f7f7' }}>
@@ -89,7 +97,7 @@ const Main = (props: IProps & IWithDispatched) => {
                             <div className="search-panel__col">
                                 <p className="m0 tt-upper font-bold">Hae</p>
                             </div>
-                            <div className="search-panel__col" style={{flexGrow: 2}}>
+                            <div className="search-panel__col" style={{ flexGrow: 2 }}>
                                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
                             </div>
                             <div className="search-panel__col search-panel__tabs">
@@ -137,9 +145,13 @@ const Main = (props: IProps & IWithDispatched) => {
                             <p>{photo.user.bio}</p>
                             <p>{photo.alt_description}</p>
                         </div>
-                        <div className="painters-action"><button onClick={(ev) => {
-                            props.dispatch(choosePainterState(photo))
-                        }} className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : ''}`}>Action</button></div>
+                        <div className="painters-action">
+                            <button
+                                onClick={(ev) => { ev.preventDefault(); onActionClick(photo); }}
+                                className={`painters-action_btn  ${props.choosePhotosId.indexOf(photo.id) !== -1 ? 'painters-action_btn__choosed' : ''}`}>
+                                Action
+                            </button>
+                        </div>
                     </div>
                 )) : (!props.isLoading && <Empty />)}
                 {props.isLoading && <Spin size="large" style={{ width: '100%' }} />}

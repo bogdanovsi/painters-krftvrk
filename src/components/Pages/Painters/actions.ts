@@ -5,6 +5,7 @@ export type ActionTypes =
     | IFetchDataErrorAction
     | IClearPhotosAction
     | IChoosePainterAction
+    | IRemovePainterAction
 
 export enum Types {
     FLUSH_STATE = 'FLUSH_STATE',
@@ -12,7 +13,8 @@ export enum Types {
     FETCH_PAINTERS_ERROR = 'FETCH_PAINTERS_ERROR',
     FETCH_PAINTERS = 'FETCH_PAINTERS',
     PAINTERS_CLEAR_PHOTOS = 'PAINTERS_CLEAR_PHOTOS',
-    CHOOSE_PAINTER = 'CHOOSE_PAINTER'
+    CHOOSE_PAINTER = 'CHOOSE_PAINTER',
+    REMOVE_PAINTER = 'REMOVE_PAINTER',
 }
 
 export interface IChoosePainterAction {
@@ -25,6 +27,17 @@ export const choosePainterState = (photo): IChoosePainterAction => {
         photo
     };
 };
+
+export interface IRemovePainterAction {
+    type: Types.REMOVE_PAINTER;
+    photo: any;
+}
+export const removePainterState = (photo): IRemovePainterAction => {
+    return {
+        type: Types.REMOVE_PAINTER,
+        photo
+    };
+}
 
 export interface IFlushStateAction {
     type: Types.FLUSH_STATE;
