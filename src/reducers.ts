@@ -1,5 +1,5 @@
-import { combineReducers, Reducer, ReducersMapObject } from "redux";
-import { connectRouter, RouterState, LocationChangeAction } from "connected-react-router";
+import { combineReducers, ReducersMapObject } from "redux";
+import { connectRouter } from "connected-react-router";
 
 import paintersReducer from '@components/Pages/Painters/reducer';
 

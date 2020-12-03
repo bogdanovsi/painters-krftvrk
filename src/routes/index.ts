@@ -1,5 +1,3 @@
-import { ConnectedComponent } from "react-redux";
-
 import Painters from '@components/Pages/Painters';
 import UserComponent from "@components/Pages/User/Component";
 

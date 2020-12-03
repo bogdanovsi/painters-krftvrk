@@ -13,14 +13,10 @@ import { Divider } from 'antd';
 import { Tabs } from 'antd';
 import { Tag } from 'antd';
 
-import mok from './mok.json';
 import { IGlobalState } from 'reducers';
 import { fetchPainters } from './api';
 import { IPaintersState } from './reducer';
 import { choosePainterState, clearPhotos, removePainterState } from './actions';
-
-const { CheckableTag } = Tag;
-const tagsData = ['Terassit', 'Katot', 'Puujulkisivut', 'Tasoitustyöt', 'Efektimaalaus', 'Sisämaalaukset', 'Lattiat', 'Kivijulkisivut ja sokkelit', 'Ovet ikkunat ja kalusteet'];
 const { TabPane } = Tabs;
 const { Search } = Input;
 
@@ -41,10 +37,6 @@ const Main = (props: IProps & IWithDispatched) => {
     }
 
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    const handleChange = (tag: string, checked: boolean) => {
-        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-        setSelectedTags(nextSelectedTags);
-    }
 
     const handleColorChange = (e) => { setColor(e.target.value); }
     useEffect(() => {
