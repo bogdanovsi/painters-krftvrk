@@ -78,7 +78,7 @@ const Main = (props: IProps & IWithDispatched) => {
             }
         }
     }
-
+    
     return (
         <main>
             <section style={{ background: '#f7f7f7' }}>

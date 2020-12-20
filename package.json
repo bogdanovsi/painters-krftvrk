@@ -92,9 +92,11 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "node server.js",
+    "express": "node server.js",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "docker:build": "rm -rf *build* *node_modules* && docker build . --no-cache -t painters"
   },
   "eslintConfig": {
     "extends": [
